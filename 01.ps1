@@ -1,0 +1,1 @@
+[xml]$xml = Get-Content "$PSScriptRoot\01.xml"

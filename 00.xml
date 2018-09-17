@@ -1,0 +1,9 @@
+<example>
+    <node attribute="value1" />
+    <node attribute="value2" >
+        <subnode attribute="value3" />
+    </node>
+    <namednode name="Foo2">
+        <name>Foo</name>
+    </namednode>
+</example>
