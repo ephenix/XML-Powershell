@@ -1,9 +1,6 @@
-<example>
+<rootnode>
     <node attribute="value1" />
-    <node attribute="value2" >
-        <subnode attribute="value3" />
+    <node attribute="value2" name="nameattribute">
+        <attribute>value3</attribute>
     </node>
-    <namednode name="Foo2">
-        <name>Foo</name>
-    </namednode>
-</example>
+</rootnode>
