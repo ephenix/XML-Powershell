@@ -1,33 +1,61 @@
-<?xml version="1.0"?>
-<!--
-    This is a block comment.
--->
-<configuration xmlns="http://schemas.microsoft.com/.NetConfiguration/v2.0">
-    <appSettings />
-    <connectionStrings>
-        <add name="Database" connectionString="Server=dbserver01;Database=db;User ID=dbuser;Password=Hunter2;Trusted_Connection=False;" providerName="System.Data.SqlClient" />
-    </connectionStrings>
-    <system.web>
-        <compilation debug="false" />
-        <authentication mode="Windows" />
-        <customErrors mode="RemoteOnly" defaultRedirect="GenericErrorPage.htm" />
-    </system.web>
-    <system.servicemodel>
-        <service name="HelloWorld, IndigoConfig, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <endpoint address="http://computer:8080/Hello1" 
-                      contract="HelloWorld, IndigoConfig, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" 
-                      binding="basicHttpBinding" 
-                      bindingConfiguration="shortTimeout" />
-            <endpoint address="http://computer:8080/Hello2" 
-                      contract="HelloWorld, IndigoConfig, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" 
-                      binding="basicHttpBinding" 
-                      bindingConfiguration="Secure" />
-        </service>
-        <bindings>  
-            <basicHttpBinding name="shortTimeout"
-                              timeout="00:00:00:01" />  
-            <basicHttpBinding name="Secure" />  
-            <Security mode="Transport" />  
-        </bindings>  
-    </system.servicemodel>
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <system.serviceModel>
+        <services>
+            <service name="service1" >
+                <endpoint address="http://localhost:8000/ServiceModelSample/service.svc"
+                          binding="wsHttpBinding" 
+                          contract="Microsoft.ServiceModel.Samples.ICalculator" />
+                <endpoint binding="wsHttpBinding"
+                          address="http://localhost:8000/ServiceModelSample/service2.svc"  
+                          contract="Microsoft.ServiceModel.Samples.ICalculator" />
+            </service>
+        </services>
+        <client>
+            <endpoint name="endpoint1" binding="wsHttpBinding" bindingConfiguration="WSHttpBinding_IHello" 
+                      behaviorConfiguration="IHello_Behavior" address="http://localhost:8000/ServiceModelSamples/service.svc" 
+                      contract="IHello">
+                <metadata>
+                    <wsdlImporters>
+                        <extension type="Microsoft.ServiceModel.Samples.WsdlDocumentationImporter, WsdlDocumentation"/>
+                    </wsdlImporters>
+                </metadata>
+                <identity>
+                    <servicePrincipalName value="host/localhost" />
+                </identity>
+            </endpoint>
+            <endpoint name="endpoint2" 
+                      address="http://localhost:8000/ServiceModelSamples/service2.svc" 
+                      binding="wsHttpBinding" 
+                      bindingConfiguration="WSHttpBinding_IHello" 
+                      behaviorConfiguration="IHello_Behavior" 
+                      contract="IHello">
+                <metadata>
+                    <wsdlImporters>
+                        <extension type="Microsoft.ServiceModel.Samples.WsdlDocumentationImporter, WsdlDocumentation"/>
+                    </wsdlImporters>
+                </metadata>
+                <identity>
+                    <servicePrincipalName value="host/localhost" />
+                </identity>
+            </endpoint>
+        </client>
+        <bindings>
+            <wsHttpBinding>
+                <binding name="WSHttpBinding_IHello" bypassProxyOnLocal="false" hostNameComparisonMode="StrongWildcard">
+                    <readerQuotas maxDepth="32"/>
+                    <reliableSession ordered="true" enabled="false" />
+                    <security mode="Message">  
+                    </security>
+                </binding>
+            </wsHttpBinding>
+        </bindings>
+        <behaviors>
+            <endpointBehaviors>
+                <behavior name="IHello_Behavior ">
+                    <clientVia />
+                </behavior>
+            </endpointBehaviors>
+        </behaviors>
+    </system.serviceModel>
 </configuration>
